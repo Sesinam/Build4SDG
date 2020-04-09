@@ -18,10 +18,10 @@ const currentlyInfected1 = inputData.reportedCases * 10;
 const currentlyInfected2 = inputData.reportedCases * 50;
 
 const infectionsByRequestedTime1 = currentlyInfected1
-* Math.power(2, Math.trunc(inputData.timeToElapse / 3));
+* (2 ** Math.trunc(inputData.timeToElapse / 3));
 
 const infectionsByRequestedTime2 = currentlyInfected2
-* Math.power(2, Math.trunc(inputData.timeToElapse / 3));
+* (2 ** Math.trunc(inputData.timeToElapse / 3));
 
 const severeCasesByRequestedTime1 = Math.trunc(0.15 * infectionsByRequestedTime1);
 
