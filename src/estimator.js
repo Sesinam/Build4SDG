@@ -5,11 +5,11 @@ const covid19ImpactEstimator = (data) => {
   const severeImpact = {};
 
   if (data.periodType === 'weeks') {
-    data.periodType *= 7;
+    data.timeToElapse *= 7;
   } else if (data.timeToElapse === 'months') {
     data.timeToElapse *= 30;
   }
-  const days = data.periodType;
+  const days = data.timeToElapse;
   const factorOfDays = 2 ** (Math.trunc(days / 3));
 
   impact.currentlyInfected = data.reportedCases * 10;
@@ -20,14 +20,15 @@ const covid19ImpactEstimator = (data) => {
 
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * factorOfDays;
 
-  impact.severeCasesByRequestedTime = 0.15 * impact.infectionsByRequestedTime;
+  impact.severeCasesByRequestedTime = Math.trunc(0.15 * impact.infectionsByRequestedTime);
 
-  severeImpact.severeCasesByRequestedTime = 0.15 * severeImpact.infectionsByRequestedTime;
+  severeImpact.severeCasesByRequestedTime = Math.trunc(0.15
+     * severeImpact.infectionsByRequestedTime);
 
   const numberOfBeds = 0.35 * data.totalHospitalBeds;
-  impact.hospitalBedsByRequestedTime = Math.ceil(numberOfBeds - impact.severeCasesByRequestedTime);
+  impact.hospitalBedsByRequestedTime = Math.trunc(numberOfBeds - impact.severeCasesByRequestedTime);
 
-  severeImpact.hospitalBedsByRequestedTime = Math.ceil(numberOfBeds
+  severeImpact.hospitalBedsByRequestedTime = Math.trunc(numberOfBeds
      - severeImpact.severeCasesByRequestedTime);
 
   impact.casesForICUByRequestedTime = 0.05 * impact.infectionsByRequestedTime;
