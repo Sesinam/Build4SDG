@@ -31,12 +31,12 @@ const covid19ImpactEstimator = (data) => {
   const ventilatorCases = 0.02 * severeImpact.infectionsByRequestedTime;
   severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(ventilatorCases);
 
-  const averageDailyIncome = data.region.avgDailyIncomePopulation;
-  const dailyIncomePopulation = data.region.avgDailyIncomeInUSD;
+  const averageDailyIncome = data.region.avgDailyIncomeInUSD;
+  const dailyIncomePopulation = data.region.avgDailyIncomePopulation;
   const incomeEconomy1 = (impact.infectionsByRequestedTime
-     * averageDailyIncome * dailyIncomePopulation) / 30;
+     * dailyIncomePopulation * averageDailyIncome) / 30;
   const incomeEconomy2 = (severeImpact.infectionsByRequestedTime
-     * averageDailyIncome * dailyIncomePopulation) / 30;
+     * dailyIncomePopulation * averageDailyIncome) / 30;
 
   impact.dollarsInFlight = Math.trunc(incomeEconomy1);
   severeImpact.dollarsInFlight = Math.trunc(incomeEconomy2);
