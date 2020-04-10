@@ -21,23 +21,23 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(numberOfBeds
      - severeImpact.severeCasesByRequestedTime);
 
-  impact.casesForICUByRequestedTime = Math.trunc(0.05 * impact.infectionsByRequestedTime);
-  severeImpact.casesForICUByRequestedTime = Math.trunc(0.05
-     * severeImpact.infectionsByRequestedTime);
+  const casesForICUByRequestedTime1 = 0.05 * impact.infectionsByRequestedTime;
+  impact.casesForICUByRequestedTime = Math.trunc(casesForICUByRequestedTime1);
+  const casesForICUByRequestedTime2 = 0.05 * severeImpact.infectionsByRequestedTime;
+  severeImpact.casesForICUByRequestedTime = Math.trunc(casesForICUByRequestedTime2);
 
-  impact.casesForVentilatorsByRequestedtTime = Math.trunc(0.02 * impact.infectionsByRequestedTime);
-  severeImpact.casesForVentilatorsByRequestedtTime = Math.trunc(0.02
-   * severeImpact.infectionsByRequestedTime);
+  const casesForVentilatorsByRequestedTime1 = 0.02 * impact.infectionsByRequestedTime;
+  impact.casesForVentilatorsByRequestedTime = Math.trunc(casesForVentilatorsByRequestedTime1);
+  const ventilatorCases = 0.02 * severeImpact.infectionsByRequestedTime;
+  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(ventilatorCases);
 
   const averageDailyIncome = data.region.avgDailyIncomePopulation;
   const dailyIncomePopulation = data.region.avgDailyIncomeInUSD;
-  impact.dollarsInFlight = parseFloat(
-    (impact.infectionsByRequestedTime * averageDailyIncome * dailyIncomePopulation * 30).toFixed(2)
-  );
-  severeImpact.dollarsInFlight = parseFloat(
-    (severeImpact.infectionsByRequestedTime
-     * averageDailyIncome * dailyIncomePopulation * 30).toFixed(2)
-  );
+  const incomeEconomy = averageDailyIncome * dailyIncomePopulation;
+  impact.dollarsInFlight = parseFloat(impact.infectionsByRequestedTime * incomeEconomy).toFixed(2);
+  severeImpact.dollarsInFlight = parseFloat(severeImpact.infectionsByRequestedTime
+     * incomeEconomy).toFixed(2);
+
   return {
     data,
     impact,
